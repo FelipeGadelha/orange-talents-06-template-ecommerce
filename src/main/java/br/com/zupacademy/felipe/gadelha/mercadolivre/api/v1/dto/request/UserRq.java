@@ -19,7 +19,7 @@ public class UserRq {
 	@NotBlank @Size(min = 6)
 	private String password;
 
-	public UserRq(String login, String password) {
+	public UserRq(String login, @NotBlank @Size(min = 6) String password) {
 		this.login = login;
 		this.password = encrypt(password);
 	}

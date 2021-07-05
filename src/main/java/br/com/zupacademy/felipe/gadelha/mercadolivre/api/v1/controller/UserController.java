@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.request.UserRq;
-import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.User;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.repository.UserRepository;
 
 @RestController
-@RequestMapping("users")
+@RequestMapping("/v1/users")
 public class UserController {
 
 	private final UserRepository userRepository;
@@ -24,7 +23,7 @@ public class UserController {
 	
 	@PostMapping
 	public ResponseEntity<?> save(@Valid @RequestBody UserRq userRq) {
-		User user = userRq.convert();
+		var user = userRq.convert();
 		userRepository.save(user);
 		return ResponseEntity.ok().build();
 	}

@@ -17,7 +17,7 @@ import br.com.zupacademy.felipe.gadelha.mercadolivre.api.validator.validation.Un
 @Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueValue {
 	
-	String message() default "br.com.zupacademy.felipe.gadelha.casadocodigo.api.validator.UniqueValueValidator";
+	String message() default "br.com.zupacademy.felipe.gadelha.mercadolivre.api.validator.validation.UniqueValueValidator";
 	
 	Class<?> [] groups() default { };
 	
