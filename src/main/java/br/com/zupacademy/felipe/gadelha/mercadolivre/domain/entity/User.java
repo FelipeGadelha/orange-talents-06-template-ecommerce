@@ -23,7 +23,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Email @NotBlank
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	private String login;
 	@NotBlank @Size(min = 6)
 	@Column(nullable = false)

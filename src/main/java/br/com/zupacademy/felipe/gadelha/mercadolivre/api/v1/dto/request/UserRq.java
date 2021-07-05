@@ -6,11 +6,15 @@ import javax.validation.constraints.Size;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import br.com.zupacademy.felipe.gadelha.mercadolivre.api.validator.annotation.UniqueValue;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.User;
 
 public class UserRq {
 
-	@Email @NotBlank
+	@Email @NotBlank 
+	@UniqueValue(domainClass = User.class,
+			fieldName = "login",
+			message = "Não é possível realizar um cadastro com este email.")
 	private String login;
 	@NotBlank @Size(min = 6)
 	private String password;
