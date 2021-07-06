@@ -1,5 +1,6 @@
 package br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.controller;
 
+import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
@@ -17,13 +18,16 @@ public class UserController {
 
 	private final UserRepository userRepository;
 	
-	public UserController(UserRepository userRepository) {
+	private final EntityManager manager;
+	
+	public UserController(UserRepository userRepository, EntityManager manager) {
 		this.userRepository = userRepository;
+		this.manager = manager;
 	}
 	
 	@PostMapping
 	public ResponseEntity<?> save(@Valid @RequestBody UserRq userRq) {
-		var user = userRq.convert();
+		var user = userRq.convert(manager);
 		userRepository.save(user);
 		return ResponseEntity.ok().build();
 	}

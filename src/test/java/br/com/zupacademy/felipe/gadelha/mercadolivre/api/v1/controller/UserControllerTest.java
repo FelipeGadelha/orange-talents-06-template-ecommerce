@@ -16,10 +16,12 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.request.UserRq;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.User;
 
+@Transactional
 @ActiveProfiles(value = "test")
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class UserControllerTest {
@@ -36,7 +38,8 @@ class UserControllerTest {
 	
 	@BeforeEach
 	void setUp() {
-		manager.createQuery("delete from User u");
+		manager.createQuery("delete from User").executeUpdate();
+		manager.flush();
 	}
 	
 	@Test

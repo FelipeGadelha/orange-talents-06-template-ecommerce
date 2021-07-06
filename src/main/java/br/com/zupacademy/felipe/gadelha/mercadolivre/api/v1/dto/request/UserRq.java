@@ -1,5 +1,8 @@
 package br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.request;
 
+import java.util.Arrays;
+
+import javax.persistence.EntityManager;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -7,6 +10,7 @@ import javax.validation.constraints.Size;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import br.com.zupacademy.felipe.gadelha.mercadolivre.api.validator.annotation.UniqueValue;
+import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Profile;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.User;
 
 public class UserRq {
@@ -29,8 +33,9 @@ public class UserRq {
 	public String getPassword() {
 		return password;
 	}
-	public User convert() {
-		return new User(login, password);
+	public User convert(EntityManager manager) {
+		Profile profile = manager.find(Profile.class, 1L);
+		return new User(login, password, Arrays.asList(profile));
 	}
 	private String encrypt(String password) {
 		return new BCryptPasswordEncoder().encode(password);

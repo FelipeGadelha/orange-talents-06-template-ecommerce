@@ -8,6 +8,7 @@ class MercadoLivreApplicationTests {
 
 	@Test
 	void contextLoads() {
+		
 	}
 
 }

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 import org.springframework.util.Assert;
 
@@ -20,6 +21,7 @@ public class CategoryRq {
 			message = "Já existe uma categoria cadastrado com esse nome")
 	private String name;
 	
+	@Positive
 	private Long parentCategoryId;
 	
 	public CategoryRq(String name, Long parentCategoryId) {
