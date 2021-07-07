@@ -3,6 +3,7 @@ package br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.controller;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +23,7 @@ public class CategoryController {
 	}
 	
 	@PostMapping
+	@Transactional
 	public ResponseEntity<?> save(@Valid @RequestBody CategoryRq categoryRq) {
 		var category = categoryRq.convert(categoryRepository);
 		categoryRepository.save(category);

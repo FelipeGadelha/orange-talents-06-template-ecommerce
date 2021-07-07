@@ -38,4 +38,8 @@ public class Profile implements GrantedAuthority {
 		return name;
 	}
 
+	@Override
+	public String toString() {
+		return "Profile [id=" + id + ", name=" + name + "]";
+	}
 }

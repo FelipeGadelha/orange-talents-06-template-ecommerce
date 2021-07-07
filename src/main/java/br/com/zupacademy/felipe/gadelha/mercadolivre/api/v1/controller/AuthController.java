@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +19,7 @@ import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.response.TokenRs
 
 @RestController
 @RequestMapping("/v1/auth")
-@Profile(value = {"prod", "test"})
+//@Profile(value = {"prod", "test"})
 public class AuthController {
 
 	@Autowired
@@ -28,6 +29,7 @@ public class AuthController {
 	private TokenService tokenService;
 
 	@PostMapping
+	@Transactional
 	public ResponseEntity<?> authenticate(@RequestBody @Valid TokenRq tokenRq) {
 		var loginData = tokenRq.convertToAuth();
 		try {

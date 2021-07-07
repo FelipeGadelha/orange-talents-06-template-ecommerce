@@ -3,7 +3,6 @@ package br.com.zupacademy.felipe.gadelha.mercadolivre.api.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -19,7 +18,7 @@ import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.repository.UserRepos
 
 @Configuration
 @EnableWebSecurity
-@Profile(value = {"prod", "test"})
+//@Profile(value = {"prod", "test"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -43,9 +42,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.POST, "/v1/auth").permitAll()
 		.antMatchers(HttpMethod.POST, "/v1/users").permitAll()
 		.antMatchers(HttpMethod.POST, "/v1/categories").hasRole("USER")
+		.antMatchers(HttpMethod.POST, "/v1/products").hasRole("USER")
 		.anyRequest().authenticated()
 		.and()
 		.csrf().disable()
+//		.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()).and()
 		.sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()

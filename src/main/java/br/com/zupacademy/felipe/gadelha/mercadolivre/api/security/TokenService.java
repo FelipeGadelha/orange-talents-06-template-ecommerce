@@ -1,5 +1,7 @@
 package br.com.zupacademy.felipe.gadelha.mercadolivre.api.security;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -22,15 +24,22 @@ public class TokenService {
 	public String generateToken(Authentication authentication) {
 		User logged = (User) authentication.getPrincipal();
 		var now = new Date();
-		var expirationDate = new Date(now.getTime() + Long.parseLong(expiration));
+//		var expirationDate = new Date(now.getTime() + Long.parseLong(expiration));
 		
 		return Jwts.builder()
 				.setIssuer("API MELI - Mercado Livre")
 				.setSubject(logged.getId().toString())
 				.setIssuedAt(now)
-				.setExpiration(expirationDate)
+				.setExpiration(this.expirationDate())// expirationDate
 				.signWith(SignatureAlgorithm.HS256, secret)
 				.compact();
+	}
+
+	private Date expirationDate() {
+		return Date.from(LocalDateTime.now()
+				.plusHours(1)
+				.atZone(ZoneId.of("America/Sao_Paulo"))
+				.toInstant());
 	}
 	
 	public boolean isValidToken(String token) {
