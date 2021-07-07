@@ -33,11 +33,11 @@ import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Category;
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class CategoryControllerTest {
 	
+	final String BASE_PATH = "/v1/categories";
 	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
 	private JacksonParse jackson;
-	final String BASE_PATH = "/v1/categories";
 	@Autowired
 	private DataBuilder builder;
 	@PersistenceContext

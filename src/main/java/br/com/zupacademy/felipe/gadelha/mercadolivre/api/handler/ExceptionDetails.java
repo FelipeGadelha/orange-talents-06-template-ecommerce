@@ -10,6 +10,7 @@ public class ExceptionDetails{
 	
 	protected String title;
 	protected int status;
+	protected String type;
 	protected String details;
 	protected String developerMessage;
 	protected OffsetDateTime timestamp;
@@ -17,6 +18,7 @@ public class ExceptionDetails{
 	protected ExceptionDetails(Builder<?> builder) {
 		this.title = builder.title;
 		this.status = builder.status;
+		this.type = builder.type;
 		this.details = builder.details;
 		this.developerMessage = builder.developerMessage;
 		this.timestamp = builder.timestamp;
@@ -35,6 +37,7 @@ public class ExceptionDetails{
 	public abstract static class Builder<T extends Builder<T>> {
 		private String title;
 		private int status;
+		private String type;
 		private String details;
 		private String developerMessage;
 		private OffsetDateTime timestamp;
@@ -47,6 +50,10 @@ public class ExceptionDetails{
 		}
 		public T status(int status) {
 			this.status = status;
+			return this.getThis();
+		}
+		public T type(String type) {
+			this.type = type;
 			return this.getThis();
 		}
 		public T details(String details) {
@@ -75,6 +82,10 @@ public class ExceptionDetails{
 		return status;
 	}
 
+	public String getType() {
+		return type;
+	}
+	
 	public String getDetails() {
 		return details;
 	}
@@ -89,9 +100,7 @@ public class ExceptionDetails{
 
 	@Override
 	public String toString() {
-		return "title= " + title + ", status= " + status + ", details= " + details
+		return "title= " + title + ", status= " + status + ", type= " + type + ", details= " + details
 				+ ", developerMessage= " + developerMessage + ", timestamp= " + timestamp;
 	}
-	
-	
 }

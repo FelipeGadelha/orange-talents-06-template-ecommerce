@@ -2,8 +2,12 @@ package br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -13,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -62,11 +67,12 @@ public class Product {
 	@JoinColumn(nullable = false)
 	@ManyToOne
 	private Category category;
+	@OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
+	private Set<Image> images = new HashSet<>();
 	
 	@PastOrPresent
 	@CreationTimestamp
 	private LocalDateTime registrationDate;
-
 	
 	@Deprecated
 	public Product() {	}
@@ -126,6 +132,11 @@ public class Product {
 		}
 		
 	}
+	public void setImages(Set<String> links) {
+		Set<Image> collect = links.stream()
+			.map(l -> new Image(l, this)).collect(Collectors.toSet());
+		this.images.addAll(collect);
+	}
 	
 	public Long getId() {
 		return id;
@@ -151,10 +162,16 @@ public class Product {
 	public LocalDateTime getRegistrationDate() {
 		return registrationDate;
 	}
+	public Set<Image> getImages() {
+		return images;
+	}
+	public boolean belongsToUser(User user) {
+		return this.user.equals(user);
+	}
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", price=" + price + ", availableQuantity=" + availableQuantity
-				+ ", features=" + features + ", description=" + description + ", category=" + category
-				+ ", registrationDate=" + registrationDate + "]";
+		return "Product [id=" + id + ", name=" + name + ", user=" + user + ", price=" + price + ", availableQuantity="
+				+ availableQuantity + ", features=" + features + ", description=" + description + ", category="
+				+ category + ", images=" + images + ", registrationDate=" + registrationDate + "]";
 	}
 }
