@@ -5,8 +5,7 @@ import org.springframework.stereotype.Service;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.User;
 
 @Service
-public class EmailNotifier implements Notifier {
-
+public class NotifierByEmail implements Notifier {
 	
 	@Override
 	public void notify(User user, String message) {

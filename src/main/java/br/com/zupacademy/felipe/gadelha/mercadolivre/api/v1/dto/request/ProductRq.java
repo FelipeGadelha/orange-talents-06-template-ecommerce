@@ -64,7 +64,7 @@ public class ProductRq {
 		return Product
 				.builder()
 				.name(name)
-				.user(user)
+				.owner(user)
 				.price(price)
 				.availableQuantity(availableQuantity)
 				.description(description)

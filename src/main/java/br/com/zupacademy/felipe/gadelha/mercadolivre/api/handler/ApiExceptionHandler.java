@@ -108,7 +108,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				.title(ex.getStatus().getReasonPhrase() + DOCUMENTATION)
 				.details(ex.getMessage())
 				.developerMessage(ex.getClass().getName())
-				.build(), HttpStatus.INTERNAL_SERVER_ERROR);
+				.build(), ex.getStatus());
 	}
 	
 	@ExceptionHandler(NullPointerException.class)

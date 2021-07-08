@@ -33,6 +33,9 @@ public class Ask {
 	@Column(name="creation_date", nullable = false)	
 	private LocalDateTime creationDate;
 	
+	@Deprecated
+	public Ask() {	}
+	
 	public Ask(String title, User user, Product product) {
 		this.title = title;
 		this.user = user;

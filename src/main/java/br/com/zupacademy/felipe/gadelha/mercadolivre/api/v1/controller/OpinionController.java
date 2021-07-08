@@ -1,7 +1,5 @@
 package br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.controller;
 
-import java.util.Optional;
-
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.request.OpinionRq;
-import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Product;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.User;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.repository.ProductRepository;
 
@@ -42,10 +39,8 @@ public class OpinionController {
 	public ResponseEntity<?> createOpinion(@PathVariable Long id,
 			@RequestBody @Valid OpinionRq opinionRq, 
 			@AuthenticationPrincipal User user){
-		Optional<Product> optional = productRepository.findById(id);
-		if(!optional.isPresent())
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		var product = optional.get();
+		var product = productRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		var opinion = opinionRq.convert(user, product);
 		manager.persist(opinion);
 		return ResponseEntity.ok().build();

@@ -2,7 +2,9 @@ package br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -43,7 +45,7 @@ public class Product {
 	@ManyToOne
 	@NotNull
 	@JoinColumn(nullable = false)
-	private User user;
+	private User owner;
 	@Positive
 	@NotNull
 	@Column(nullable = false)
@@ -70,6 +72,10 @@ public class Product {
 	@OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
 	private Set<Image> images = new HashSet<>();
 	
+	@OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
+	private List<Opinion> opinions = new ArrayList<>();
+	@OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
+	private List<Ask> ask = new ArrayList<>();
 	@PastOrPresent
 	@CreationTimestamp
 	private LocalDateTime registrationDate;
@@ -79,7 +85,7 @@ public class Product {
 
 	public Product(Builder builder) {
 		this.name = builder.name;
-		this.user = builder.user;
+		this.owner = builder.owner;
 		this.price = builder.price;
 		this.availableQuantity = builder.availableQuantity;
 		this.features = builder.features;
@@ -92,7 +98,7 @@ public class Product {
 	public static class Builder {
 		
 		private @NotNull String name;
-		private @NotNull User user;
+		private @NotNull User owner;
 		private @Positive @NotNull BigDecimal price;
 		private @PositiveOrZero @NotNull Integer availableQuantity;
 		private @NotNull @Length(max = 1000) String description;
@@ -103,8 +109,8 @@ public class Product {
 			this.name = name;
 			return this;
 		}
-		public Builder user(User user) {
-			this.user = user;
+		public Builder owner(User owner) {
+			this.owner = owner;
 			return this;
 		}
 		public Builder price(BigDecimal price) {
@@ -165,12 +171,31 @@ public class Product {
 	public Set<Image> getImages() {
 		return images;
 	}
-	public boolean belongsToUser(User user) {
-		return this.user.equals(user);
+	public User getOwner() {
+		return owner;
 	}
+	public List<Opinion> getOpinions() {
+		return opinions;
+	}
+	public List<Ask> getAsk() {
+		return ask;
+	}
+	public boolean belongsToUser(User user) {
+		return this.owner.equals(user);
+	}
+	public double avgNotes() {
+		return opinions.stream()
+				.map(Opinion::getEvaluation)
+				.collect(Collectors.averagingInt(i -> i));
+	}
+
+	public Integer totalNotes() {
+		return opinions.size();
+	}
+	
 	@Override
 	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", user=" + user + ", price=" + price + ", availableQuantity="
+		return "Product [id=" + id + ", name=" + name + ", user=" + owner + ", price=" + price + ", availableQuantity="
 				+ availableQuantity + ", features=" + features + ", description=" + description + ", category="
 				+ category + ", images=" + images + ", registrationDate=" + registrationDate + "]";
 	}

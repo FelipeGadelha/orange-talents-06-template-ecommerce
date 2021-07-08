@@ -1,6 +1,5 @@
 package br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.controller;
 
-import java.util.Optional;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
@@ -11,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +20,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.request.ImageRq;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.request.ProductRq;
+import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.response.ProductDetailsRs;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.component.UploadFake;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.component.Uploader;
-import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Product;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.User;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.repository.ProductRepository;
 
@@ -47,7 +47,6 @@ public class ProductController {
 	@Transactional
 	public ResponseEntity<?> save(@Valid @RequestBody ProductRq productRq,
 				@AuthenticationPrincipal User user) {
-		System.err.println(user.toString());
 		productRepository.save(productRq.convert(manager, user));
 		return ResponseEntity.ok().build();
 	}
@@ -57,11 +56,8 @@ public class ProductController {
 	public ResponseEntity<?> updateImage(@PathVariable Long id,
 			@Valid ImageRq imageRq, 
 			@AuthenticationPrincipal User user){
-		Optional<Product> optional = productRepository.findById(id);
-		
-		if(!optional.isPresent()) 
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		var product = optional.get();
+		var product = productRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		if(!product.belongsToUser(user))
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 		
@@ -70,4 +66,11 @@ public class ProductController {
 		productRepository.save(product);
 		return ResponseEntity.ok().build();
 	}	
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> details(@PathVariable Long id) {
+		var product = productRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+		return ResponseEntity.ok(new ProductDetailsRs(product));
+	}
 }

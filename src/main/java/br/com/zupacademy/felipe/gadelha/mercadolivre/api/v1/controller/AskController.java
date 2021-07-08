@@ -1,7 +1,5 @@
 package br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.controller;
 
-import java.util.Optional;
-
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
 
@@ -21,7 +19,6 @@ import org.springframework.web.server.ResponseStatusException;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.api.event.AskEvent;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.request.AskRq;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Ask;
-import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Product;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.User;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.repository.ProductRepository;
 
@@ -32,7 +29,6 @@ public class AskController {
 	private final ProductRepository productRepository;
 	private final EntityManager manager;
 	private final ApplicationEventPublisher publisher;
-	
 	
 	@Autowired
 	public AskController(
@@ -50,10 +46,8 @@ public class AskController {
 	public ResponseEntity<?> createOpinion(@PathVariable Long id,
 			@RequestBody @Valid AskRq askRq, 
 			@AuthenticationPrincipal User user){
-		Optional<Product> optional = productRepository.findById(id);
-		if(!optional.isPresent())
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		Product product = optional.get();
+		var product = productRepository.findById(id)
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 		Ask ask = new Ask(askRq.getTitle(), user, product);
 		manager.persist(ask);
 		

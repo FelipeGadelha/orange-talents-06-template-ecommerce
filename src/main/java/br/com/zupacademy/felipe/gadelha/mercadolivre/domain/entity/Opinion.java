@@ -38,6 +38,9 @@ public class Opinion {
 	@ManyToOne
 	@JoinColumn(nullable = false)
 	private Product product;
+	
+	@Deprecated
+	public Opinion() {	}
 
 	public Opinion(@NotNull @Range(min = 1, max = 5) Integer evaluation, 
 			@NotNull @NotBlank String title,

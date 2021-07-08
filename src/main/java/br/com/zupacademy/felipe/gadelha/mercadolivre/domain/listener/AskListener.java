@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import br.com.zupacademy.felipe.gadelha.mercadolivre.api.event.AskEvent;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.component.Notifier;
+import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.User;
 
 @Component
 public class AskListener {
@@ -16,10 +17,15 @@ public class AskListener {
 	public AskListener(Notifier notifier) {
 		this.notifier = notifier;
 	}
-	
+
 	@EventListener
 	public void asklistener(AskEvent askEvent) {
-		notifier.notify(askEvent.getAsk().getUser(), 
-				askEvent.getAsk().getTitle());
+		notifier.notify(getSeller(askEvent), getAskTitle(askEvent));
+	}
+	private User getSeller(AskEvent askEvent) {
+		return askEvent.getAsk().getProduct().getOwner();
+	}
+	private String getAskTitle(AskEvent askEvent) {
+		return askEvent.getAsk().getTitle();
 	}
 }
