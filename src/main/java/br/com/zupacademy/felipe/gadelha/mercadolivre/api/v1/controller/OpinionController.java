@@ -1,7 +1,6 @@
 package br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.controller;
 
 import java.util.Optional;
-import java.util.Set;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
@@ -18,56 +17,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.request.ImageRq;
-import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.request.ProductRq;
-import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.component.UploadFake;
-import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.component.Uploader;
+import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.request.OpinionRq;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Product;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.User;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.repository.ProductRepository;
 
 @RestController
-@RequestMapping("/v1/products")
-public class ProductController {
+@RequestMapping("/v1/products/{id}/opinions")
+public class OpinionController {
 
 	private final ProductRepository productRepository;
 	
 	private final EntityManager manager;
 	
-	private final Uploader uploadFake;
 	
 	@Autowired
-	public ProductController(ProductRepository productRepository, EntityManager manager, UploadFake uploadFake) {
+	public OpinionController(ProductRepository productRepository, EntityManager manager) {
 		this.productRepository = productRepository;
 		this.manager = manager;
-		this.uploadFake = uploadFake;
 	}
 	
 	@PostMapping
 	@Transactional
-	public ResponseEntity<?> save(@Valid @RequestBody ProductRq productRq,
-				@AuthenticationPrincipal User user) {
-		System.err.println(user.toString());
-		productRepository.save(productRq.convert(manager, user));
-		return ResponseEntity.ok().build();
-	}
-	
-	@PostMapping("/{id}/images")
-	@Transactional
-	public ResponseEntity<?> updateImage(@PathVariable Long id,
-			@Valid ImageRq imageRq, 
+	public ResponseEntity<?> createOpinion(@PathVariable Long id,
+			@RequestBody @Valid OpinionRq opinionRq, 
 			@AuthenticationPrincipal User user){
 		Optional<Product> optional = productRepository.findById(id);
-		
-		if(!optional.isPresent()) 
+		if(!optional.isPresent())
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
 		var product = optional.get();
-		if(!product.belongsToUser(user))
-			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
-		
-		Set<String> links = uploadFake.send(imageRq.getImages());
-		product.setImages(links);
-		productRepository.save(product);
+		var opinion = opinionRq.convert(user, product);
+		manager.persist(opinion);
 		return ResponseEntity.ok().build();
-	}	
+	}
 }

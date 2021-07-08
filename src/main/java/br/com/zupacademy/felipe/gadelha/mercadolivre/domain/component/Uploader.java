@@ -1,4 +1,4 @@
-package br.com.zupacademy.felipe.gadelha.mercadolivre.api.component;
+package br.com.zupacademy.felipe.gadelha.mercadolivre.domain.component;
 
 import java.util.List;
 import java.util.Set;

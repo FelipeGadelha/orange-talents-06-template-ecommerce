@@ -1,6 +1,8 @@
 package br.com.zupacademy.felipe.gadelha.mercadolivre.infra.mock;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Category;
+import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Product;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Profile;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.User;
 
@@ -49,6 +52,20 @@ public class Mock implements ApplicationRunner{
 		var tech = new Category("Tech", null);
 		manager.persist(home);
 		manager.persist(tech);
+		
+		var smartphone = Product.builder()
+			.name("Samsung S21")
+			.description("Smartphone top da samsung")
+			.price(new BigDecimal(4000))
+			.availableQuantity(10)
+			.user(admin)
+			.category(tech)
+			.features(Map.of(
+					"Memória interna", "256GB", 
+					"com NFC", "Não", 
+					"Câmera traseira principal", "13px")
+					).build();
+		manager.persist(smartphone);
 	}
 
 }

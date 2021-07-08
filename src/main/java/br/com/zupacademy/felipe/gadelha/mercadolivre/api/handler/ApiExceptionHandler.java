@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @RestControllerAdvice
@@ -94,7 +95,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				.timestamp(OffsetDateTime.now())
 				.status(HttpStatus.INTERNAL_SERVER_ERROR.value())
 				.title(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase() + DOCUMENTATION)
-				.details(ex.getCause().getMessage())
+				.details(ex.getMessage())
+				.developerMessage(ex.getClass().getName())
+				.build(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	@ExceptionHandler({ ResponseStatusException.class })
+	public ResponseEntity<Object> handleAll(ResponseStatusException ex) {
+		return new ResponseEntity<>(
+				ExceptionDetails.builder()
+				.timestamp(OffsetDateTime.now())
+				.status(ex.getStatus().value())
+				.title(ex.getStatus().getReasonPhrase() + DOCUMENTATION)
+				.details(ex.getMessage())
 				.developerMessage(ex.getClass().getName())
 				.build(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}

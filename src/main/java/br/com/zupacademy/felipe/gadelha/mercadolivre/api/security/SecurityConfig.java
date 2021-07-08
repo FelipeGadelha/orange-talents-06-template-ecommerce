@@ -43,7 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.antMatchers(HttpMethod.POST, "/v1/users").permitAll()
 		.antMatchers(HttpMethod.POST, "/v1/categories").hasRole("USER")
 		.antMatchers(HttpMethod.POST, "/v1/products").hasRole("USER")
-		.antMatchers(HttpMethod.PUT, "/v1/products/**").hasRole("USER")
+		.antMatchers(HttpMethod.POST, "/v1/products/**").hasRole("USER")
 		.anyRequest().authenticated()
 		.and()
 		.csrf().disable()
