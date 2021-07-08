@@ -21,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.api.component.UploadFake;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.api.component.Uploader;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.request.ImageRq;
+import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.request.OpinionRq;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.api.v1.dto.request.ProductRq;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Product;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.User;
@@ -70,4 +71,18 @@ public class ProductController {
 		productRepository.save(product);
 		return ResponseEntity.ok().build();
 	}
+	@PostMapping("/{id}/opinions")
+	@Transactional
+	public ResponseEntity<?> createOpinion(@PathVariable Long id,
+			@RequestBody @Valid OpinionRq opinionRq, 
+			@AuthenticationPrincipal User user){
+		Optional<Product> optional = productRepository.findById(id);
+		if(!optional.isPresent())
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+		var product = optional.get();
+		var opinion = opinionRq.convert(user, product);
+		manager.persist(opinion);
+		return ResponseEntity.ok().build();
+	}
+	
 }

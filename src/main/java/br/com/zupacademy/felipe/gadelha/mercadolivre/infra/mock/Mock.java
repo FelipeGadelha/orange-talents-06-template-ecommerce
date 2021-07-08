@@ -25,15 +25,14 @@ public class Mock implements ApplicationRunner{
 	
 	@Override
 	public void run(ApplicationArguments args) throws Exception {
-
-		manager.createQuery("delete from User").executeUpdate();
-		manager.createNativeQuery("alter table users AUTO_INCREMENT = 1").executeUpdate();
-		manager.createQuery("delete from Profile").executeUpdate();
-		manager.createNativeQuery("alter table profiles AUTO_INCREMENT = 1").executeUpdate();
-		manager.createQuery("delete from Category").executeUpdate();
-		manager.createNativeQuery("alter table categories AUTO_INCREMENT = 1").executeUpdate();
-		manager.createQuery("delete from Product").executeUpdate();
-		manager.createNativeQuery("alter table products AUTO_INCREMENT = 1").executeUpdate();
+//		manager.createQuery("delete from User").executeUpdate();
+//		manager.createNativeQuery("alter table users AUTO_INCREMENT = 1").executeUpdate();
+//		manager.createQuery("delete from Profile").executeUpdate();
+//		manager.createNativeQuery("alter table profiles AUTO_INCREMENT = 1").executeUpdate();
+//		manager.createQuery("delete from Category").executeUpdate();
+//		manager.createNativeQuery("alter table categories AUTO_INCREMENT = 1").executeUpdate();
+//		manager.createQuery("delete from Product").executeUpdate();
+//		manager.createNativeQuery("alter table products AUTO_INCREMENT = 1").executeUpdate();
 
 		var profileUser = new Profile("ROLE_USER");
 		var profileAdmin = new Profile("ROLE_ADMIN");
