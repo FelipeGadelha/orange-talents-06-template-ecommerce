@@ -57,7 +57,8 @@ public class ProductController {
 			@Valid ImageRq imageRq, 
 			@AuthenticationPrincipal User user){
 		var product = productRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, 
+						"Produto de id: " + id + " não encontrado"));
 		if(!product.belongsToUser(user))
 			throw new ResponseStatusException(HttpStatus.FORBIDDEN);
 		
@@ -70,7 +71,8 @@ public class ProductController {
 	@GetMapping("/{id}")
 	public ResponseEntity<?> details(@PathVariable Long id) {
 		var product = productRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, 
+						"Produto de id: " + id + " não encontrado"));
 		return ResponseEntity.ok(new ProductDetailsRs(product));
 	}
 }

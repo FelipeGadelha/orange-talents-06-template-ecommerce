@@ -5,20 +5,20 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.component.Notifier;
-import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.event.AskEvent;
+import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.event.PurchaseEvent;
 
 @Component
-public class AskListener {
+public class PurchaseListener {
 	
 	private final Notifier notifier;
 	
 	@Autowired
-	public AskListener(Notifier notifier) {
+	public PurchaseListener(Notifier notifier) {
 		this.notifier = notifier;
 	}
-
+	
 	@EventListener
-	public void asklistener(AskEvent event) {
-		notifier.newASk(event.getAsk());
+	public void notifierPurchaseListener(PurchaseEvent event) {
+		notifier.newPurchaser(event.getPurchase());
 	}
 }

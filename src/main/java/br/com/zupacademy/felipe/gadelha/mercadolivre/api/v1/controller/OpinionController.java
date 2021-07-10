@@ -40,7 +40,8 @@ public class OpinionController {
 			@RequestBody @Valid OpinionRq opinionRq, 
 			@AuthenticationPrincipal User user){
 		var product = productRepository.findById(id)
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, 
+						"Produto de id: " + id + " não encontrado"));
 		var opinion = opinionRq.convert(user, product);
 		manager.persist(opinion);
 		return ResponseEntity.ok().build();

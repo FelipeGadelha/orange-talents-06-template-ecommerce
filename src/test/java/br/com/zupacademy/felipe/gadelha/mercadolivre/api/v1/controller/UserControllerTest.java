@@ -62,7 +62,7 @@ class UserControllerTest {
 		User user = manager.createQuery("select u from User u where u.login =:pLogin", User.class)
 				.setParameter("pLogin", userRq.getLogin())
 				.getSingleResult();
-		assertThat(user.getLogin()).isEqualTo(userRq.getLogin());
+		assertThat(user.getUsername()).isEqualTo(userRq.getLogin());
 		assertNotNull(user.getPassword());
 	}
 }

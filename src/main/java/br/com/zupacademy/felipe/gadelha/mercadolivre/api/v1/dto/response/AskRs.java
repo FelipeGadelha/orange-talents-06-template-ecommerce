@@ -7,19 +7,19 @@ import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Ask;
 public class AskRs {
 
 	private String title;
-	private String login;
+	private String username;
 	private LocalDateTime creationDate;
 
 	public AskRs(Ask ask) {
 		title = ask.getTitle();
-		login = ask.getUser().getLogin();
+		username = ask.getUser().getUsername();
 		creationDate = ask.getCreationDate();
 	}
 	public String getTitle() {
 		return title;
 	}
-	public String getLogin() {
-		return login;
+	public String getUsername() {
+		return username;
 	}
 	public LocalDateTime getCreationDate() {
 		return creationDate;

@@ -6,12 +6,12 @@ public class OpinionRs {
 
 	private String title;
 	private Integer evaluation;
-	private String login;
+	private String username;
 
 	public OpinionRs(Opinion opinion) {
 		title = opinion.getTitle();
 		evaluation = opinion.getEvaluation();
-		login = opinion.getUser().getLogin();
+		username = opinion.getUser().getUsername();
 	}
 
 	public String getTitle() {
@@ -22,9 +22,8 @@ public class OpinionRs {
 		return evaluation;
 	}
 
-	public String getLogin() {
-		return login;
+	public String getUsername() {
+		return username;
 	}
 
-	
 }

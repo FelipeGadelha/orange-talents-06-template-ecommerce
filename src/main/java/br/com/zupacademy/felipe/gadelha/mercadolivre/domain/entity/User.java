@@ -64,10 +64,10 @@ public class User implements UserDetails {
 	public Long getId() {
 		return id;
 	}
-
-	public String getLogin() {
-		return login;
-	}
+//
+//	public String getLogin() {
+//		return login;
+//	}
 
 	public String getPassword() {
 		return password;

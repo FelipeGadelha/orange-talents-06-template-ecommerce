@@ -199,4 +199,13 @@ public class Product {
 				+ availableQuantity + ", features=" + features + ", description=" + description + ", category="
 				+ category + ", images=" + images + ", registrationDate=" + registrationDate + "]";
 	}
+
+	public boolean subtractBySale(Integer quantity) {
+		if (quantity <= this.availableQuantity) {
+			this.availableQuantity = Math
+					.subtractExact(this.availableQuantity, quantity);
+			return true;
+		} 
+		return false;
+	}
 }

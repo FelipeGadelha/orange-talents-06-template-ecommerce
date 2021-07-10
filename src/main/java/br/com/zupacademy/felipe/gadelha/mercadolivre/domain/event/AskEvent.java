@@ -1,4 +1,4 @@
-package br.com.zupacademy.felipe.gadelha.mercadolivre.api.event;
+package br.com.zupacademy.felipe.gadelha.mercadolivre.domain.event;
 
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Ask;
 

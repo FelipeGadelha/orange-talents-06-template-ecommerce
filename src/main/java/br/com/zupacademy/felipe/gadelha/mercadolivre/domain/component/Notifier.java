@@ -1,9 +1,11 @@
 package br.com.zupacademy.felipe.gadelha.mercadolivre.domain.component;
 
-import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.User;
+import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Ask;
+import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.entity.Purchase;
 
 public interface Notifier {
 	
-	public void notify(User user, String message);
-
+	void newASk(Ask ask);
+	void newPurchaser(Purchase purchase);
+	
 }
