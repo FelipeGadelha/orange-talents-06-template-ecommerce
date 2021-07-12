@@ -8,7 +8,7 @@ public enum GatewayType {
 		@Override
 		public String getUri(Purchase purchase, UriComponentsBuilder uriBuilder) {
 			var uri = uriBuilder
-					.path("/v1/paypal/{id}")
+					.path("/v1/process-pay/paypal/{id}")
 					.buildAndExpand(purchase.getId())
 					.toString();
 			return "paypal.com?buyerId=" 
@@ -20,7 +20,7 @@ public enum GatewayType {
 	@Override
 		public String getUri(Purchase purchase, UriComponentsBuilder uriBuilder) {
 			var uri = uriBuilder
-					.path("/v1/pagseguro/{id}")
+					.path("/v1/process-pay/pagseguro/{id}")
 					.buildAndExpand(purchase.getId())
 					.toString();
 			return "pagseguro.com?returnId=" 

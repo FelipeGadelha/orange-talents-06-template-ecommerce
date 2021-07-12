@@ -22,6 +22,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "users")
 public class User implements UserDetails {
@@ -43,7 +45,6 @@ public class User implements UserDetails {
 	@CreationTimestamp @PastOrPresent
 	@Column(name="creation_date", nullable = false)	
 	private LocalDateTime creationDate;
-	
 	@ManyToMany(fetch = FetchType.EAGER)
 	private List<Profile> profiles = new ArrayList<>();
 	

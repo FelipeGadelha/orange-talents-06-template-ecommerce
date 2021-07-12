@@ -30,12 +30,18 @@ public class ProductDetailsRs {
 		this.description = product.getDescription();
 		this.avgNotes = product.avgNotes();
 		this.totalNotes = product.totalNotes();
+		
+		
 		this.opinions = product.getOpinions()
 				.stream().map(OpinionRs::new)
 				.collect(Collectors.toList());
+		
+		
 		this.ask = product.getAsk()
 				.stream().map(AskRs::new)
 				.collect(Collectors.toList());
+		
+		
 		this.images = product.getImages()
 				.stream().map(ImageRs::new)
 				.collect(Collectors.toSet());

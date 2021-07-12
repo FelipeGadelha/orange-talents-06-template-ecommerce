@@ -31,6 +31,8 @@ import javax.validation.constraints.Size;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Entity
 @Table(name = "products")
 public class Product {
@@ -69,11 +71,13 @@ public class Product {
 	@JoinColumn(nullable = false)
 	@ManyToOne
 	private Category category;
+	@JsonManagedReference
 	@OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
 	private Set<Image> images = new HashSet<>();
-	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
 	private List<Opinion> opinions = new ArrayList<>();
+	@JsonManagedReference
 	@OneToMany(mappedBy = "product", cascade = CascadeType.MERGE)
 	private List<Ask> ask = new ArrayList<>();
 	@PastOrPresent
@@ -180,6 +184,9 @@ public class Product {
 	public List<Ask> getAsk() {
 		return ask;
 	}
+	public String getSellerName() {
+		return this.owner.getUsername();
+	}
 	public boolean belongsToUser(User user) {
 		return this.owner.equals(user);
 	}
@@ -188,18 +195,9 @@ public class Product {
 				.map(Opinion::getEvaluation)
 				.collect(Collectors.averagingInt(i -> i));
 	}
-
 	public Integer totalNotes() {
 		return opinions.size();
 	}
-	
-	@Override
-	public String toString() {
-		return "Product [id=" + id + ", name=" + name + ", user=" + owner + ", price=" + price + ", availableQuantity="
-				+ availableQuantity + ", features=" + features + ", description=" + description + ", category="
-				+ category + ", images=" + images + ", registrationDate=" + registrationDate + "]";
-	}
-
 	public boolean subtractBySale(Integer quantity) {
 		if (quantity <= this.availableQuantity) {
 			this.availableQuantity = Math
@@ -207,5 +205,12 @@ public class Product {
 			return true;
 		} 
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return "Product [id=" + id + ", name=" + name + ", user=" + owner + ", price=" + price + ", availableQuantity="
+				+ availableQuantity + ", features=" + features + ", description=" + description + ", category="
+				+ category + ", images=" + images + ", registrationDate=" + registrationDate + "]";
 	}
 }

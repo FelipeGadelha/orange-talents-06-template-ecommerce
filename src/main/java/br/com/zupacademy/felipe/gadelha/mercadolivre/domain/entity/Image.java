@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.URL;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "images")
 public class Image {
@@ -22,9 +24,10 @@ public class Image {
 	@URL
 	@NotBlank
 	private String link;
-	@ManyToOne
-	@NotNull
 	@Valid
+	@NotNull
+	@JsonBackReference
+	@ManyToOne
 	private Product product;
 	
 	@Deprecated

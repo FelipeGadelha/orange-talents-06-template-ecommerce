@@ -4,16 +4,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.component.Notifier;
+import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.component.NotifierSeller;
 import br.com.zupacademy.felipe.gadelha.mercadolivre.domain.event.AskEvent;
 
 @Component
 public class AskListener {
 	
-	private final Notifier notifier;
+	private final NotifierSeller notifier;
 	
 	@Autowired
-	public AskListener(Notifier notifier) {
+	public AskListener(NotifierSeller notifier) {
 		this.notifier = notifier;
 	}
 

@@ -15,6 +15,8 @@ import javax.validation.constraints.PastOrPresent;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 public class Ask {
 
@@ -27,6 +29,7 @@ public class Ask {
 	@JoinColumn(nullable = false)
 	private User user;
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(nullable = false)
 	private Product product;
 	@CreationTimestamp @PastOrPresent
@@ -56,9 +59,23 @@ public class Ask {
 	public LocalDateTime getCreationDate() {
 		return creationDate;
 	}
+	public String getSellerName() {
+		return this.product.getSellerName();
+	}
+	public String getProductName() {
+		return this.product.getName();
+	}
+	public String getProductDescription() {
+		return this.product.getDescription();
+	}
+	public String getAskUsername() {
+		return this.user.getUsername();
+	}
 	@Override
 	public String toString() {
 		return "Ask [id=" + id + ", title=" + title + ", user=" + user + ", product=" + product + ", creationDate="
 				+ creationDate + "]";
 	}
+
+
 }

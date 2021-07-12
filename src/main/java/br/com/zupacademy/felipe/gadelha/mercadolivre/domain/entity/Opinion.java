@@ -14,6 +14,8 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Range;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 @Entity
 @Table(name = "opinions")
 public class Opinion {
@@ -36,6 +38,7 @@ public class Opinion {
 	private User user;
 	@NotNull
 	@ManyToOne
+	@JsonBackReference
 	@JoinColumn(nullable = false)
 	private Product product;
 	
